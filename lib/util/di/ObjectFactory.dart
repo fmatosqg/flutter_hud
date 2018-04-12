@@ -1,3 +1,5 @@
+import 'package:flutter_hud/domain/wifi/WifiManager.dart';
+
 class ObjectFactory {
   static final ObjectFactory instance = ObjectFactory._internal();
 
@@ -8,8 +10,4 @@ class ObjectFactory {
   WifiManager getWifiManager() {
     return _wifiManager;
   }
-}
-
-class WifiManager {
-  String ip = "1.2.3.4";
 }
