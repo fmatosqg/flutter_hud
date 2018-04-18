@@ -1,3 +1,4 @@
+import 'package:flutter_hud/domain/wifi/BluetoothManager.dart';
 import 'package:flutter_hud/domain/wifi/WifiManager.dart';
 
 class ObjectFactory {
@@ -6,8 +7,13 @@ class ObjectFactory {
   ObjectFactory._internal();
 
   final WifiManager _wifiManager = WifiManager();
+  final BluetoothManager _bluetoothManager = BluetoothManager();
 
   WifiManager getWifiManager() {
     return _wifiManager;
+  }
+
+  BluetoothManager getBluetoothManager() {
+    return _bluetoothManager;
   }
 }

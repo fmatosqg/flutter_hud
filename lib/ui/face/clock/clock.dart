@@ -3,14 +3,16 @@ import 'dart:async';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hud/bridge/network/IpAddress.dart';
+import 'package:flutter_hud/domain/wifi/BluetoothManager.dart';
 import 'package:flutter_hud/domain/wifi/WifiManager.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ClockFace extends StatefulWidget {
   final WifiManager _wifiManager;
+  final BluetoothManager _bluetoothManager;
 
-  ClockFace(this._wifiManager);
+  ClockFace(this._wifiManager, this._bluetoothManager);
 
   @override
   State<StatefulWidget> createState() => ClockFaceState();
@@ -20,6 +22,8 @@ class ClockFaceState extends State<ClockFace> {
   String _ip;
   String _date;
   String _time;
+
+  String _bluetoothStatus;
 
   StreamSubscription _tick;
 
@@ -31,6 +35,8 @@ class ClockFaceState extends State<ClockFace> {
 
   @override
   Widget build(BuildContext context) {
+    var subheadTextStyle = Theme.of(context).textTheme.subhead;
+
     return Center(
       child: Card(
         color: Colors.white12,
@@ -39,12 +45,21 @@ class ClockFaceState extends State<ClockFace> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              new Text(_ip),
-              new Text(_date),
+              new Text(
+                _ip,
+                style: subheadTextStyle,
+              ),
+              new Text(
+                _date,
+                style: subheadTextStyle,
+              ),
               new Text(
                 _time,
-                style:
-                    Theme.of(context).textTheme.title.copyWith(fontSize: 40.0),
+                style: Theme.of(context).textTheme.title,
+              ),
+              new Text(
+                _bluetoothStatus,
+                style: subheadTextStyle,
               ),
             ],
           ),
@@ -60,6 +75,7 @@ class ClockFaceState extends State<ClockFace> {
     _ip = "init";
     _time = "now";
     _date = 'today';
+    _bluetoothStatus = "-";
     loadIp();
     startTick();
   }
@@ -87,7 +103,8 @@ class ClockFaceState extends State<ClockFace> {
         .listen((ConnectivityResult result) {
       IpAddress().getIp().then((ip) {
         setState(() {
-          _ip = '$result $ip ss';
+          _ip = '$result $ip';
+          _bluetoothStatus = 'BT: ' + widget._bluetoothManager.status();
         });
       });
     });
