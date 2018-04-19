@@ -15,8 +15,8 @@ ThemeData get theThemeForTheWholeApp => new ThemeData();
 
 // phone
 var themeSmallWidth = new ThemeData(
-    primarySwatch: Colors.blue,
-    backgroundColor: Colors.black38,
+    primarySwatch: Colors.deepPurple,
+    backgroundColor: Colors.deepPurpleAccent,
     canvasColor: Colors.black38,
     textTheme: new TextTheme(title: new TextStyle(fontSize: 40.0)));
 
@@ -26,5 +26,4 @@ var themeMediumWidth = themeSmallWidth.copyWith(
     title: new TextStyle(fontSize: 100.0),
     subhead: new TextStyle(fontSize: 40.0),
   ),
-
 );

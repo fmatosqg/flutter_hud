@@ -35,33 +35,30 @@ class ClockFaceState extends State<ClockFace> {
 
   @override
   Widget build(BuildContext context) {
-    var subheadTextStyle = Theme.of(context).textTheme.subhead;
+    var textStyle = Theme.of(context).textTheme;
 
-    return Center(
-      child: Card(
-        color: Colors.white12,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              new Text(
-                _ip,
-                style: subheadTextStyle,
-              ),
-              new Text(
-                _date,
-                style: subheadTextStyle,
-              ),
-              new Text(
-                _time,
-                style: Theme.of(context).textTheme.title,
-              ),
-              new Text(
-                _bluetoothStatus,
-                style: subheadTextStyle,
-              ),
-            ],
+    Widget _newText(String text, TextTheme style) =>
+        new Text(text, style: style.subhead);
+
+    return Container(
+      color: Theme.of(context).backgroundColor,
+      child: Center(
+        child: Card(
+          color: Colors.white12,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                _newText(_ip, textStyle),
+                _newText(_date, textStyle),
+                new Text(
+                  _time,
+                  style: textStyle.title,
+                ),
+                _newText(_bluetoothStatus, textStyle),
+              ],
+            ),
           ),
         ),
       ),

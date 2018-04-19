@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/diagnostics.dart';
 import 'package:flutter_hud/Themes.dart';
 import 'package:flutter_hud/ui/face/clock/clock.dart';
 import 'package:flutter_hud/util/di/ObjectFactory.dart';
@@ -19,10 +20,8 @@ class MyApp extends StatelessWidget {
     );
 
     return new MaterialApp(
-      title: 'Flutter Demo',
       theme: getTheme(new MediaQueryData.fromWindow(ui.window)),
       home: scaffold,
     );
-
   }
 }
