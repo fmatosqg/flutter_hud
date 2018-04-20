@@ -135,7 +135,7 @@ class ClockFaceState extends State<ClockFace> {
     var now = new DateTime.now();
 
     var timeFormatted = new DateFormat('HH:mm:ss').format(now);
-    var dateFormatted = new DateFormat("EEEE, dd/MMM/yyyy").format(now);
+    var dateFormatted = new DateFormat("EEEE, dd MMMM yyyy").format(now);
 
     setState(() {
       print('hello');
