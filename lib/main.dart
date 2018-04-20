@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/diagnostics.dart';
 import 'package:flutter_hud/Themes.dart';
@@ -20,7 +22,6 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   ThemeData _theme;
-  MediaQueryData _mediaQueryData = new MediaQueryData.fromWindow(ui.window);
 
 // This widget is the root of your application.
   @override
@@ -42,36 +43,53 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   initState() {
     super.initState();
-    _theme = getTheme(_mediaQueryData);
     WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
+    updateTheme();
   }
 
   @override
   reassemble() {
     super.reassemble();
+    updateTheme();
+  }
+
+  @override
+  dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _timer?.cancel();
+    _timer = null;
+    super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     print('AppLifecycle $state');
-//    setState(() { _notification = state; });
   }
 
   @override
   void didChangeMetrics() {
     setState(() {
-      _mediaQueryData = new MediaQueryData.fromWindow(ui.window);
       _theme = getTheme(_mediaQueryData);
     });
   }
 
-  void handleMetricsChanged() {
-    print('metrics changed');
+  /////////////////////////////
+  MediaQueryData get _mediaQueryData =>
+      new MediaQueryData.fromWindow(ui.window);
+
+  Timer updateTheme() {
+    _timer?.cancel();
+
+    setState(() {
+      _theme = getTheme(_mediaQueryData);
+    });
+    _timer = new Timer(new Duration(seconds: 10), () {
+      print('Update theme');
+      setState(() {
+        _theme = getTheme(_mediaQueryData, isNightTheme: true);
+      });
+    });
   }
+
+  Timer _timer;
 }

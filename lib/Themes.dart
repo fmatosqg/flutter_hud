@@ -1,55 +1,41 @@
 import 'package:flutter/material.dart';
 
-//get theme => themeMediumWidth;
-ThemeData getTheme(MediaQueryData mediaQueryData) {
+
+ThemeData getTheme(MediaQueryData mediaQueryData, {bool isNightTheme: false}) {
   print("Media Query says screen width is ${mediaQueryData.size.width}");
 
   final width = mediaQueryData.size.width;
-  if (width >= 800.0) {
-    return themeBigWidth;
-  } else if (width >= 500) {
-    return themeMediumWidth;
-  } else {
-    return themeSmallWidth;
-  }
+
+  var baseTheme = isNightTheme ? nightTheme : dayTheme;
+  final textColor = isNightTheme ? Colors.white : Colors.black;
+
+  return baseTheme.copyWith(
+    textTheme: buildDefaultTextTheme(width / 30.0, textColor: textColor),
+  );
 }
 
-ThemeData get theThemeForTheWholeApp => new ThemeData();
-
-// phone
-var themeSmallWidth = new ThemeData(
+final ThemeData nightTheme = new ThemeData(
   primarySwatch: Colors.deepPurple,
-  backgroundColor: Colors.deepPurpleAccent,
-  canvasColor: Colors.black38,
-  textTheme: defaultTextStyle,
+);
+final ThemeData dayTheme = new ThemeData(
+  primarySwatch: Colors.lightBlue,
 );
 
-// phone landscape
-var themeMediumWidth = themeSmallWidth.copyWith(
-  textTheme: themeSmallWidth.textTheme.copyWith(
-    title: new TextStyle(fontSize: 70.0),
-    subhead: new TextStyle(fontSize: 20.0),
-  ),
-);
+TextTheme buildDefaultTextTheme(double bodyFontSize,
+    {Color textColor: Colors.yellow}) {
+  final baseTextStyle = new TextStyle(fontSize: bodyFontSize, color: textColor);
 
-// rpi preview 4 (width 800)
-var themeBigWidth = themeSmallWidth.copyWith(
-  textTheme: themeSmallWidth.textTheme.copyWith(
-    title: new TextStyle(fontSize: 100.0),
-    subhead: new TextStyle(fontSize: 40.0),
-  ),
-);
-
-TextTheme get defaultTextStyle => new TextTheme(
-      title: new TextStyle(fontSize: 40.0),
-      display4: new TextStyle(fontSize: 10.0),
-      display3: new TextStyle(fontSize: 10.0),
-      display2: new TextStyle(fontSize: 10.0),
-      display1: new TextStyle(fontSize: 10.0),
-      headline: new TextStyle(fontSize: 10.0),
-      subhead: new TextStyle(fontSize: 10.0),
-      body2: new TextStyle(fontSize: 10.0),
-      body1: new TextStyle(fontSize: 30.0),
-      caption: new TextStyle(fontSize: 10.0),
-      button: new TextStyle(fontSize: 10.0),
-    );
+  new TextTheme(
+    title: baseTextStyle.copyWith(fontSize: bodyFontSize * 4),
+    display4: baseTextStyle,
+    display3: baseTextStyle,
+    display2: baseTextStyle,
+    display1: baseTextStyle,
+    headline: baseTextStyle,
+    subhead: baseTextStyle,
+    body2: baseTextStyle,
+    body1: baseTextStyle,
+    caption: baseTextStyle,
+    button: baseTextStyle,
+  );
+}
