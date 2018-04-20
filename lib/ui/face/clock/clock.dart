@@ -43,8 +43,9 @@ class ClockFaceState extends State<ClockFace> {
     return Container(
       child: Center(
         child: Card(
-          child: Padding(
+          child: Container(
             padding: const EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(12.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[

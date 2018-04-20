@@ -21,21 +21,28 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  ThemeData _theme;
   Timer _timer;
+
+  bool _isNightTheme;
 
   @override
   Widget build(BuildContext context) {
     var objectFactory = ObjectFactory.instance;
 
     var scaffold = Scaffold(
-//      backgroundColor: Theme.of(context).backgroundColor,
       body: new ClockFace(
           objectFactory.getWifiManager(), objectFactory.getBluetoothManager()),
     );
 
     return new MaterialApp(
-      theme: _theme,
+      builder: (context, child) {
+        _mediaQueryData = MediaQuery.of(context);
+        var _theme = getTheme(_mediaQueryData,isNightTheme: _isNightTheme);
+        return new Theme(
+          data: _theme,
+          child: child,
+        );
+      },
       home: scaffold,
     );
   }
@@ -68,25 +75,23 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void didChangeMetrics() {
-    setState(() {
-      _theme = getTheme(_mediaQueryData);
-    });
+    updateTheme();
   }
 
   /////////////////////////////
-  MediaQueryData get _mediaQueryData =>
-      new MediaQueryData.fromWindow(ui.window);
+//  MediaQueryData get _mediaQueryData =>
+//      new MediaQueryData.fromWindow(ui.window);
+
+  MediaQueryData _mediaQueryData = new MediaQueryData(size: new Size(0.0, 0.0));
 
   updateTheme() {
     _timer?.cancel();
+    _isNightTheme = false;
 
-    setState(() {
-      _theme = getTheme(_mediaQueryData);
-    });
     _timer = new Timer(new Duration(seconds: 10), () {
       print('Update theme');
       setState(() {
-        _theme = getTheme(_mediaQueryData, isNightTheme: true);
+        _isNightTheme = true;
       });
     });
   }
