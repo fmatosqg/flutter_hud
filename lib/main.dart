@@ -7,8 +7,22 @@ import 'dart:ui' as ui;
 
 void main() => runApp(new MyApp());
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => new MyAppState();
+
+  @override
+  StatefulElement createElement() {
+    print('hello');
+    return super.createElement();
+  }
+}
+
+class MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  ThemeData _theme;
+  MediaQueryData _mediaQueryData = new MediaQueryData.fromWindow(ui.window);
+
+// This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     var objectFactory = ObjectFactory.instance;
@@ -20,8 +34,44 @@ class MyApp extends StatelessWidget {
     );
 
     return new MaterialApp(
-      theme: getTheme(new MediaQueryData.fromWindow(ui.window)),
+      theme: _theme,
       home: scaffold,
     );
+  }
+
+  @override
+  initState() {
+    super.initState();
+    _theme = getTheme(_mediaQueryData);
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  reassemble() {
+    super.reassemble();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print('AppLifecycle $state');
+//    setState(() { _notification = state; });
+  }
+
+  @override
+  void didChangeMetrics() {
+    setState(() {
+      _mediaQueryData = new MediaQueryData.fromWindow(ui.window);
+      _theme = getTheme(_mediaQueryData);
+    });
+  }
+
+  void handleMetricsChanged() {
+    print('metrics changed');
   }
 }
