@@ -22,14 +22,14 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   ThemeData _theme;
+  Timer _timer;
 
-// This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     var objectFactory = ObjectFactory.instance;
 
     var scaffold = Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+//      backgroundColor: Theme.of(context).backgroundColor,
       body: new ClockFace(
           objectFactory.getWifiManager(), objectFactory.getBluetoothManager()),
     );
@@ -77,7 +77,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   MediaQueryData get _mediaQueryData =>
       new MediaQueryData.fromWindow(ui.window);
 
-  Timer updateTheme() {
+  updateTheme() {
     _timer?.cancel();
 
     setState(() {
@@ -90,6 +90,4 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
       });
     });
   }
-
-  Timer _timer;
 }

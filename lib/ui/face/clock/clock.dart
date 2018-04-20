@@ -38,13 +38,11 @@ class ClockFaceState extends State<ClockFace> {
     var textStyle = Theme.of(context).textTheme;
 
     Widget _newText(String text, TextTheme style) =>
-        new Text(text, style: style.subhead);
+        new Text(text, style: style.body1);
 
     return Container(
-      color: Theme.of(context).backgroundColor,
       child: Center(
         child: Card(
-          color: Colors.white12,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
