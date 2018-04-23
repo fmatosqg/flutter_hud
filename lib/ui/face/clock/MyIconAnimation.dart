@@ -25,11 +25,6 @@ class MyIconState extends State<MyIcon> with TickerProviderStateMixin {
   }
 
   Widget _buildAnimatedIcon() {
-//    return new Text('dsdsddddd');
-//    return const AnimatedIcon(
-//      progress: const AlwaysStoppedAnimation<double>(0.0),
-//      icon: AnimatedIcons.arrow_menu,
-//    );
 
     return new Column(
       children: <Widget>[

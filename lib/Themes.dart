@@ -20,6 +20,9 @@ final ThemeData nightTheme = new ThemeData(
   backgroundColor: Colors.deepPurple,
   canvasColor: Colors.deepPurple,
   cardColor: AppColors.darkPurpleAccent,
+  iconTheme: new IconThemeData(
+    color: Colors.lightBlue,
+  ),
 );
 
 final ThemeData dayTheme = new ThemeData(
@@ -27,6 +30,9 @@ final ThemeData dayTheme = new ThemeData(
   canvasColor: Colors.lightBlue,
   cardColor: Colors.blue,
   backgroundColor: Colors.lightBlueAccent,
+  iconTheme: new IconThemeData(
+    color: Colors.black54
+  ),
 );
 
 TextTheme buildDefaultTextTheme(double bodyFontSize,
