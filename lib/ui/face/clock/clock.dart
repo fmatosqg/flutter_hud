@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hud/bridge/network/IpAddress.dart';
 import 'package:flutter_hud/domain/wifi/BluetoothManager.dart';
 import 'package:flutter_hud/domain/wifi/WifiManager.dart';
+import 'package:flutter_hud/ui/face/clock/MyIconAnimation.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -35,7 +36,9 @@ class ClockFaceState extends State<ClockFace> {
 
   @override
   Widget build(BuildContext context) {
-    var textStyle = Theme.of(context).textTheme;
+    var textStyle = Theme
+        .of(context)
+        .textTheme;
 
     Widget _newText(String text, TextTheme style) =>
         new Text(text, style: style.body1);
@@ -56,6 +59,7 @@ class ClockFaceState extends State<ClockFace> {
                   style: textStyle.title,
                 ),
                 _newText(_bluetoothStatus, textStyle),
+                new MyIcon(),
               ],
             ),
           ),
@@ -116,7 +120,7 @@ class ClockFaceState extends State<ClockFace> {
     }
 
     _periodicTimer =
-        new Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+    new Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       updateTime();
     });
   }
