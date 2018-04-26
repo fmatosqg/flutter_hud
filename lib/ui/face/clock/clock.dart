@@ -32,6 +32,8 @@ class ClockFaceState extends State<ClockFace> {
 
   Timer _periodicTimer;
 
+  Timer _btTimer;
+
   ClockFaceState();
 
   @override
@@ -57,7 +59,7 @@ class ClockFaceState extends State<ClockFace> {
                   style: textStyle.title,
                 ),
                 _newText(_bluetoothStatus, textStyle),
-                new MyIcon(),
+//                new MyIcon(),
               ],
             ),
           ),
@@ -73,7 +75,7 @@ class ClockFaceState extends State<ClockFace> {
     _ip = 'init';
     _time = 'now';
     _date = 'today';
-    _bluetoothStatus = '-';
+    _bluetoothStatus = 'BT - init';
     loadIp();
     startTick();
   }
@@ -81,17 +83,22 @@ class ClockFaceState extends State<ClockFace> {
   @override
   void reassemble() {
     super.reassemble();
+
+    _bluetoothStatus = 'BT - reassemble';
     loadIp();
 
     startTick();
+    doBluetoothThing();
   }
 
   @override
   void dispose() {
     _tick.cancel();
     _tick = null;
-    _periodicTimer.cancel();
+    _periodicTimer?.cancel();
     _periodicTimer = null;
+    _btTimer?.cancel();
+    _btTimer = null;
     super.dispose();
   }
 
@@ -128,7 +135,7 @@ class ClockFaceState extends State<ClockFace> {
       _tick.cancel();
     }
 
-    _tick = Observable<int>.periodic(const Duration(seconds: 1)).listen((int c) {
+    _tick = Observable.periodic(const Duration(seconds: 1)).listen((c) {
       updateTime();
     });
   }
@@ -136,13 +143,26 @@ class ClockFaceState extends State<ClockFace> {
   void updateTime() {
     final DateTime now = new DateTime.now();
 
-    final String timeFormatted = new DateFormat('HH:mm:ss').format(now);
+    final String timeFormatted = new DateFormat('HH:mm').format(now);
     var dateFormatted = new DateFormat("EEEE, dd MMMM yyyy").format(now);
 
     setState(() {
       print('hello');
       _time = timeFormatted;
       _date = dateFormatted;
+    });
+  }
+
+  void doBluetoothThing() {
+    _bluetoothStatus = 'BT about to start advertising';
+    widget._bluetoothManager.startAdvertising();
+
+    _btTimer?.cancel();
+    _btTimer = new Timer(const Duration(seconds: 5), () {
+      setState(() {
+        _bluetoothStatus =
+            'BT 5 seconds later ${widget._bluetoothManager.status()}';
+      });
     });
   }
 }

@@ -18,10 +18,10 @@ dependencies:
 
 dependency_overrides:
   flutter_blue:
-    git:
-      url: https://github.com/fmatosqg/flutter_blue.git
-#      ref: master
-      ref: issue_47_advertising
+    path: '/Users/fabio.dematos/code/android/flutter/flutter_blue'
+#    git:
+#      url: https://github.com/fmatosqg/flutter_blue.git
+#      ref: issue_47_advertising
 
 dev_dependencies:
   flutter_test:

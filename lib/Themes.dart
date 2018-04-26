@@ -10,6 +10,11 @@ ThemeData getTheme(MediaQueryData mediaQueryData, {bool isNightTheme: false}) {
 
   var textTheme = buildDefaultTextTheme(width / 30.0, textColor: textColor);
 
+  if (width > 799) {
+    // rpi3
+    return superDark.copyWith(textTheme: textTheme);
+  }
+
   return baseTheme.copyWith(
     textTheme: textTheme,
   );
@@ -25,14 +30,18 @@ final ThemeData nightTheme = new ThemeData(
   ),
 );
 
+final ThemeData superDark = new ThemeData(
+  primarySwatch: Colors.blueGrey,
+  canvasColor: Colors.blueGrey[700],
+  cardColor: Colors.blueGrey[500],
+);
+
 final ThemeData dayTheme = new ThemeData(
   primarySwatch: Colors.lightBlue,
   canvasColor: Colors.lightBlue,
   cardColor: Colors.blue,
   backgroundColor: Colors.lightBlueAccent,
-  iconTheme: new IconThemeData(
-    color: Colors.black54
-  ),
+  iconTheme: new IconThemeData(color: Colors.black54),
 );
 
 TextTheme buildDefaultTextTheme(double bodyFontSize,

@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 class IpAddress {
   static const platform = const MethodChannel('samples.flutter.io/ip_address');
 
-  Future<String> getIp() {
+  Future<String> getIp() async {
 //    return platform.invokeMethod('ip_address'); //as Future<String>;
-    return platform.invokeMethod('mobile_address');
+    return await platform.invokeMethod('mobile_address') as String;
   }
 }

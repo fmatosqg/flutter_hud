@@ -6,14 +6,19 @@ class BluetoothManager {
 
   String _status = "Unknown";
 
-
-  void startAdvertising() {
-    _flutterBlue.startAdvertising();
-    _status = "Advertising activated";
+  void startAdvertising() async {
+    try {
+      if (await _flutterBlue.startAdvertising()) {
+        _status = "Advertising starting";
+      } else {
+        _status = "Advertising failed to starttt";
+      }
+    } catch (e) {
+      _status = 'Error ${e.toString()}';
+    }
   }
 
-  String status(){
-
+  String status() {
     return _status;
   }
 }
