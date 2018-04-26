@@ -29,7 +29,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     var objectFactory = ObjectFactory.instance;
 
-    var scaffold = Scaffold(
+    var scaffold = new Scaffold(
       body: new ClockFace(
           objectFactory.getWifiManager(), objectFactory.getBluetoothManager()),
     );
@@ -37,7 +37,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
     return new MaterialApp(
       builder: (context, child) {
         _mediaQueryData = MediaQuery.of(context);
-        var _theme = getTheme(_mediaQueryData,isNightTheme: _isNightTheme);
+        var _theme = getTheme(_mediaQueryData, isNightTheme: _isNightTheme);
         return new Theme(
           data: _theme,
           child: child,
@@ -84,7 +84,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   MediaQueryData _mediaQueryData = new MediaQueryData(size: new Size(0.0, 0.0));
 
-  updateTheme() {
+  void updateTheme() {
     _timer?.cancel();
     _isNightTheme = false;
 

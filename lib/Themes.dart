@@ -19,7 +19,7 @@ final ThemeData nightTheme = new ThemeData(
   primarySwatch: Colors.deepPurple,
   backgroundColor: Colors.deepPurple,
   canvasColor: Colors.deepPurple,
-  cardColor: AppColors.darkPurpleAccent,
+  cardColor: Colors.deepPurpleAccent,
   iconTheme: new IconThemeData(
     color: Colors.lightBlue,
   ),
@@ -55,6 +55,6 @@ TextTheme buildDefaultTextTheme(double bodyFontSize,
 }
 
 class AppColors {
-  static const Color darkPurple = Color(0xFFFDF7F6);
-  static const Color darkPurpleAccent = Color(0x44FDF7F6);
+//  static const Color darkPurple = Color(0xFFFDF7F6);
+//  static const Color darkPurpleAccent = Color(0x44FDF7F6);
 }

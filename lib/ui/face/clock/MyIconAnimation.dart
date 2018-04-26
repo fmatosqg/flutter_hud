@@ -4,7 +4,7 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 
 class MyIcon extends StatefulWidget {
-  MyIcon() {}
+  MyIcon();
 
   factory MyIcon.forDesignTime() => new MyIcon();
 

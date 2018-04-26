@@ -16,7 +16,7 @@ class ClockFace extends StatefulWidget {
   ClockFace(this._wifiManager, this._bluetoothManager);
 
   @override
-  State<StatefulWidget> createState() => ClockFaceState();
+  State<StatefulWidget> createState() => new ClockFaceState();
 }
 
 class ClockFaceState extends State<ClockFace> {
@@ -36,9 +36,7 @@ class ClockFaceState extends State<ClockFace> {
 
   @override
   Widget build(BuildContext context) {
-    var textStyle = Theme
-        .of(context)
-        .textTheme;
+    var textStyle = Theme.of(context).textTheme;
 
     Widget _newText(String text, TextTheme style) =>
         new Text(text, style: style.body1);
@@ -72,10 +70,10 @@ class ClockFaceState extends State<ClockFace> {
   void initState() {
     super.initState();
 
-    _ip = "init";
-    _time = "now";
+    _ip = 'init';
+    _time = 'now';
     _date = 'today';
-    _bluetoothStatus = "-";
+    _bluetoothStatus = '-';
     loadIp();
     startTick();
   }
@@ -101,7 +99,7 @@ class ClockFaceState extends State<ClockFace> {
     _subscription = new Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult result) {
-      IpAddress().getIp().then((ip) {
+      IpAddress().getIp().then((String ip) {
         setState(() {
           _ip = '$result $ip';
           _bluetoothStatus = 'BT: ' + widget._bluetoothManager.status();
@@ -120,7 +118,7 @@ class ClockFaceState extends State<ClockFace> {
     }
 
     _periodicTimer =
-    new Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+        new Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       updateTime();
     });
   }
@@ -130,15 +128,15 @@ class ClockFaceState extends State<ClockFace> {
       _tick.cancel();
     }
 
-    _tick = Observable.periodic(new Duration(seconds: 1)).listen((c) {
+    _tick = Observable<int>.periodic(const Duration(seconds: 1)).listen((int c) {
       updateTime();
     });
   }
 
   void updateTime() {
-    var now = new DateTime.now();
+    final DateTime now = new DateTime.now();
 
-    var timeFormatted = new DateFormat('HH:mm:ss').format(now);
+    final String timeFormatted = new DateFormat('HH:mm:ss').format(now);
     var dateFormatted = new DateFormat("EEEE, dd MMMM yyyy").format(now);
 
     setState(() {

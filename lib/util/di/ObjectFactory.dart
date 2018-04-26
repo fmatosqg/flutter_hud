@@ -7,7 +7,7 @@ class ObjectFactory {
   ObjectFactory._internal();
 
   final WifiManager _wifiManager = WifiManager();
-  final BluetoothManager _bluetoothManager = BluetoothManager();
+  final BluetoothManager _bluetoothManager = new BluetoothManager();
 
   WifiManager getWifiManager() {
     return _wifiManager;
