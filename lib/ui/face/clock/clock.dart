@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hud/bridge/network/IpAddress.dart';
 import 'package:flutter_hud/domain/wifi/BluetoothManager.dart';
 import 'package:flutter_hud/domain/wifi/WifiManager.dart';
-import 'package:flutter_hud/ui/face/clock/MyIconAnimation.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -28,7 +27,7 @@ class ClockFaceState extends State<ClockFace> {
 
   StreamSubscription _tick;
 
-  StreamSubscription<ConnectivityResult> _subscription;
+//  StreamSubscription<ConnectivityResult> _subscription;
 
   Timer _periodicTimer;
 
@@ -43,13 +42,13 @@ class ClockFaceState extends State<ClockFace> {
     Widget _newText(String text, TextTheme style) =>
         new Text(text, style: style.body1);
 
-    return Container(
-      child: Center(
-        child: Card(
-          child: Container(
+    return new Container(
+      child: new Center(
+        child: new Card(
+          child: new Container(
             padding: const EdgeInsets.all(8.0),
             margin: const EdgeInsets.all(12.0),
-            child: Column(
+            child: new Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 _newText(_ip, textStyle),
@@ -78,6 +77,7 @@ class ClockFaceState extends State<ClockFace> {
     _bluetoothStatus = 'BT - init';
     loadIp();
     startTick();
+    doBluetoothThing();
   }
 
   @override
@@ -103,16 +103,16 @@ class ClockFaceState extends State<ClockFace> {
   }
 
   void loadIp() async {
-    _subscription = new Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult result) {
-      IpAddress().getIp().then((String ip) {
-        setState(() {
-          _ip = '$result $ip';
-          _bluetoothStatus = 'BT: ' + widget._bluetoothManager.status();
-        });
-      });
-    });
+//    _subscription = new Connectivity()
+//        .onConnectivityChanged
+//        .listen((ConnectivityResult result) {
+//      IpAddress().getIp().then((String ip) {
+//        setState(() {
+//          _ip = '$result $ip';
+//          _bluetoothStatus = 'BT: ' + widget._bluetoothManager.status();
+//        });
+//      });
+//    });
   }
 
   void startTick() {
@@ -143,13 +143,14 @@ class ClockFaceState extends State<ClockFace> {
   void updateTime() {
     final DateTime now = new DateTime.now();
 
-    final String timeFormatted = new DateFormat('HH:mm').format(now);
+    final String timeFormatted = new DateFormat('HH:mm:ss').format(now);
     var dateFormatted = new DateFormat("EEEE, dd MMMM yyyy").format(now);
 
     setState(() {
-      print('hello');
+//      print('hello');
       _time = timeFormatted;
       _date = dateFormatted;
+      _bluetoothStatus = 'BT: ' + widget._bluetoothManager.status();
     });
   }
 
@@ -158,6 +159,9 @@ class ClockFaceState extends State<ClockFace> {
     widget._bluetoothManager.startAdvertising();
 
     _btTimer?.cancel();
+
+    widget._bluetoothManager.scan();
+
     _btTimer = new Timer(const Duration(seconds: 5), () {
       setState(() {
         _bluetoothStatus =

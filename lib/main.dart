@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/diagnostics.dart';
 import 'package:flutter_hud/Themes.dart';
 import 'package:flutter_hud/ui/face/clock/clock.dart';
 import 'package:flutter_hud/util/di/ObjectFactory.dart';
-import 'dart:ui' as ui;
 
 void main() => runApp(new MyApp());
 
