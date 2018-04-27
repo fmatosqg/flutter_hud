@@ -13,6 +13,9 @@ class BluetoothManager {
   Timer _scanTimer;
   String _scanStatus = 'Nothing';
 
+  String _statusStatus = '-';
+  String _connectionStatus = '-';
+
   void startAdvertising() async {
     try {
       if (await _flutterBlue.startAdvertising()) {
@@ -34,11 +37,12 @@ class BluetoothManager {
   }
 
   String status() {
-    return 'advertise $_advertiseStatus  -- scan $_scanStatus';
+    return 'advertise $_advertiseStatus\nscan $_scanStatus\nstatus $_statusStatus\nconnection $_connectionStatus';
   }
 
   void scan() async {
     _scanStatus = 'scan start';
+    _connectionStatus = '--';
 
     final bool isOn = await _flutterBlue.isOn();
     if (!isOn) {
@@ -52,6 +56,8 @@ class BluetoothManager {
 
     if (hasPermission) {
       _scanTimer?.cancel();
+
+      _statusStatus = _devices.toString();
 
       int deviceCount = 0;
       final StreamSubscription<ScanResult> scanSubscription =
@@ -89,29 +95,17 @@ class BluetoothManager {
       <String, bool>{}; // device name, connect is in progress
 
   void _talkToDevice(ScanResult scanResult) {
-//    scanResult.device.state
-//    var state = await
-
     scanResult.device.state.then((BluetoothDeviceState value) {
-      print('device ${scanResult.device.name}  state $value');
-    });
+      print('+++device ${scanResult.device.name}  state $value');
 
-    final bool isInProgress = _devices.containsKey(scanResult.device.name) &&
-        _devices[scanResult.device.name];
+      if (value == BluetoothDeviceState.disconnected) {
+        print('+++device state decides to connect');
+        _connectToDevice(scanResult);
+      } else {
+        print('+++device state does not decide to connect');
+      }
 
-    if (!isInProgress) {
-      _devices.putIfAbsent(scanResult.device.name, () => true);
-      print('Added device ${scanResult.device.name}');
-    } else {
-      print('Found device ${scanResult.device.name}');
-    }
-
-//    _devices.putIfAbsent(key, ifAbsent)
-
-    _flutterBlue.connect(scanResult.device).listen((dynamic deviceState) {
-      print('Device ${scanResult.device.name} state changed to $deviceState');
-//    }).onError(() {
-//      print('Found error on BT connect');
+      _statusStatus = '$value ';
     });
 
 //    scanResult.device.con
@@ -126,5 +120,42 @@ class BluetoothManager {
 //    });
 
 //    return true;
+  }
+
+  void _connectToDevice(ScanResult scanResult) {
+    final bool isInProgress = _devices.containsKey(scanResult.device.name) &&
+        _devices[scanResult.device.name];
+
+    if (!isInProgress) {
+      _devices.putIfAbsent(scanResult.device.name, () => true);
+      print('+++++Added device ${scanResult.device.name}');
+    } else {
+      print('+++++Found device ${scanResult.device.name}');
+    }
+    _statusStatus = _devices.toString();
+
+    _connectionStatus = 'about to connect';
+    final StreamSubscription<BluetoothDeviceState> connection = _flutterBlue
+        .connect(scanResult.device)
+        .listen((BluetoothDeviceState deviceState) {
+      _connectionStatus = 'connect listening to $deviceState';
+      print(
+          '++++Device ${scanResult.device.name} state changed to $deviceState');
+
+      _discoverServices(scanResult.device);
+    });
+
+    new Timer(new Duration(seconds: 20), () {
+      _connectionStatus = 'Disconenect timeout';
+      connection.cancel();
+    });
+  }
+
+  void _discoverServices(BluetoothDevice device) {
+    print('++++++ Discover services now');
+    device.discoverServices().then((List<BluetoothService> serviceList) {
+
+      print('+++ List all services $serviceList');
+    });
   }
 }

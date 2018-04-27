@@ -25,19 +25,17 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    var objectFactory = ObjectFactory.instance;
+    final ObjectFactory objectFactory = ObjectFactory.instance;
 
-    var scaffold = new Scaffold(
+    final Widget scaffold = new Scaffold(
       body: new ClockFace(
           objectFactory.getWifiManager(), objectFactory.getBluetoothManager()),
     );
 
     return new MaterialApp(
-      builder: (context, child) {
-        _mediaQueryData = MediaQuery.of(context);
-        var _theme = getTheme(_mediaQueryData, isNightTheme: _isNightTheme);
+      builder: (BuildContext context, Widget child) {
         return new Theme(
-          data: _theme,
+          data: getTheme(MediaQuery.of(context), isNightTheme: _isNightTheme),
           child: child,
         );
       },
@@ -46,20 +44,20 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   }
 
   @override
-  initState() {
+  void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     updateTheme();
   }
 
   @override
-  reassemble() {
+  void reassemble() {
     super.reassemble();
     updateTheme();
   }
 
   @override
-  dispose() {
+  void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _timer?.cancel();
     _timer = null;
@@ -75,12 +73,6 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void didChangeMetrics() {
     updateTheme();
   }
-
-  /////////////////////////////
-//  MediaQueryData get _mediaQueryData =>
-//      new MediaQueryData.fromWindow(ui.window);
-
-  MediaQueryData _mediaQueryData = new MediaQueryData(size: new Size(0.0, 0.0));
 
   void updateTheme() {
     _timer?.cancel();
