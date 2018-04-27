@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 ThemeData getTheme(MediaQueryData mediaQueryData, {bool isNightTheme: false}) {
-  print("Media Query says screen width is ${mediaQueryData.size.width}");
+  print('Media Query says screen width is ${mediaQueryData.size.width}');
 
-  final width = mediaQueryData.size.width;
+  final double width = mediaQueryData.size.width;
 
-  var baseTheme = isNightTheme ? nightTheme : dayTheme;
-  final textColor = isNightTheme ? Colors.white70 : Colors.black87;
+  final ThemeData baseTheme = isNightTheme ? nightTheme : dayTheme;
+  final Color textColor = isNightTheme ? Colors.white70 : Colors.black87;
 
-  var textTheme = buildDefaultTextTheme(width / 30.0, textColor: textColor);
+  final TextTheme textTheme =
+      buildDefaultTextTheme(width / 30.0, textColor: textColor);
 
   if (width > 799) {
     // rpi3
@@ -46,7 +47,8 @@ final ThemeData dayTheme = new ThemeData(
 
 TextTheme buildDefaultTextTheme(double bodyFontSize,
     {Color textColor: Colors.black}) {
-  final baseTextStyle = new TextStyle(fontSize: bodyFontSize, color: textColor);
+  final TextStyle baseTextStyle =
+      new TextStyle(fontSize: bodyFontSize, color: textColor);
 
   return new TextTheme(
     title: baseTextStyle.copyWith(fontSize: bodyFontSize * 4),

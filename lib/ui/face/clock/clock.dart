@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hud/bridge/network/IpAddress.dart';
 import 'package:flutter_hud/domain/wifi/BluetoothManager.dart';
 import 'package:flutter_hud/domain/wifi/WifiManager.dart';
 import 'package:intl/intl.dart';
@@ -135,7 +133,7 @@ class ClockFaceState extends State<ClockFace> {
       _tick.cancel();
     }
 
-    _tick = Observable.periodic(const Duration(seconds: 1)).listen((c) {
+    _tick = Observable.periodic<int>(const Duration(seconds: 1)).listen((int c) {
       updateTime();
     });
   }
@@ -144,7 +142,7 @@ class ClockFaceState extends State<ClockFace> {
     final DateTime now = new DateTime.now();
 
     final String timeFormatted = new DateFormat('HH:mm:ss').format(now);
-    var dateFormatted = new DateFormat("EEEE, dd MMMM yyyy").format(now);
+    final String  dateFormatted = new DateFormat('EEEE, dd MMMM yyyy').format(now);
 
     setState(() {
 //      print('hello');

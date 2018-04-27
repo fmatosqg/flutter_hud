@@ -6,6 +6,9 @@
       <excludeFolder url="file://$MODULE_DIR$/../flutter_blue/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/../flutter_blue/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/../flutter_blue/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../flutter_blue/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/../flutter_blue/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/../flutter_blue/example/build" />
     </content>
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/lib" isTestSource="false" />
