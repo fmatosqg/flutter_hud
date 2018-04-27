@@ -25,8 +25,6 @@ class ClockFaceState extends State<ClockFace> {
 
   StreamSubscription _tick;
 
-//  StreamSubscription<ConnectivityResult> _subscription;
-
   Timer _periodicTimer;
 
   Timer _btTimer;
@@ -35,7 +33,7 @@ class ClockFaceState extends State<ClockFace> {
 
   @override
   Widget build(BuildContext context) {
-    var textStyle = Theme.of(context).textTheme;
+    final TextTheme textStyle = Theme.of(context).textTheme;
 
     Widget _newText(String text, TextTheme style) =>
         new Text(text, style: style.body1);
