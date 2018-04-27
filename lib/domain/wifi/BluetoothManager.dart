@@ -17,10 +17,13 @@ class BluetoothManager {
     try {
       if (await _flutterBlue.startAdvertising()) {
         _advertiseStatus = "Advertising starting";
+        print('Advertising starting');
 
         _advertiseTime?.cancel();
         _advertiseTime = new Timer(new Duration(seconds: 180), () {
           _advertiseStatus = "Advertise timer expired";
+          print('Advertise timer expired.');
+          startAdvertising();
         });
       } else {
         _advertiseStatus = "Advertising failed to starttt";
@@ -37,6 +40,10 @@ class BluetoothManager {
   void scan() async {
     _scanStatus = "scan start";
 
+    if (!await _flutterBlue.isOn()) {
+      _scanStatus = 'BT was off, turn on';
+      await _flutterBlue.turnOn();
+    }
     final List<String> deviceNameList = ['RPI3'];
 
     bool hasPermission = await SimplePermissions
@@ -54,7 +61,7 @@ class BluetoothManager {
         if (deviceNameList.contains(scanResult.device.name)) {
           print('scanResult.device[$deviceCount] = ${scanResult.device.name}');
 //          try {
-            _talkToDevice(scanResult);
+          _talkToDevice(scanResult);
 //          } catch (e) {
 //            print('I caught something $e -- ${e.runtimeType}');
 //          }
@@ -99,12 +106,10 @@ class BluetoothManager {
 
 //    _devices.putIfAbsent(key, ifAbsent)
 
-    _flutterBlue
-        .connect(scanResult.device)
-        .listen((dynamic deviceState) {
+    _flutterBlue.connect(scanResult.device).listen((dynamic deviceState) {
       print('Device ${scanResult.device.name} state changed to ${deviceState}');
-    }).onError(() {
-      print('Found error on BT connect');
+//    }).onError(() {
+//      print('Found error on BT connect');
     });
 
 //    scanResult.device.con
