@@ -24,7 +24,7 @@ final ThemeData nightTheme = new ThemeData(
   primarySwatch: Colors.deepPurple,
   backgroundColor: Colors.deepPurple,
   canvasColor: Colors.deepPurple,
-  cardColor: Colors.deepPurpleAccent,
+  cardColor: const Color(0x22ddddff),
   iconTheme: new IconThemeData(
     color: Colors.lightBlue,
   ),
@@ -39,7 +39,7 @@ final ThemeData superDark = new ThemeData(
 final ThemeData dayTheme = new ThemeData(
   primarySwatch: Colors.lightBlue,
   canvasColor: Colors.lightBlue,
-  cardColor: Colors.blue,
+  cardColor: const Color(0x22ddddff),
   backgroundColor: Colors.lightBlueAccent,
   iconTheme: new IconThemeData(color: Colors.black54),
 );

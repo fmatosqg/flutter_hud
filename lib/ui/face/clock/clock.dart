@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hud/bridge/network/IpAddress.dart';
+import 'package:flutter_hud/domain/album/ServerAlbumRepo.dart';
 import 'package:flutter_hud/domain/wifi/BluetoothManager.dart';
 import 'package:flutter_hud/domain/wifi/WifiManager.dart';
 import 'package:flutter_hud/ui/face/clock/MyIconAnimation.dart';
@@ -12,8 +13,13 @@ import 'package:rxdart/rxdart.dart';
 class ClockFace extends StatefulWidget {
   final WifiManager _wifiManager;
   final BluetoothManager _bluetoothManager;
+  final AlbumRepo _albumRepo;
 
-  ClockFace(this._wifiManager, this._bluetoothManager);
+  ClockFace(this._wifiManager, this._bluetoothManager, this._albumRepo);
+
+  factory ClockFace.forDesignTime() {
+    return new ClockFace(null, null, null);
+  }
 
   @override
   State<StatefulWidget> createState() => new ClockFaceState();
@@ -40,31 +46,45 @@ class ClockFaceState extends State<ClockFace> {
   Widget build(BuildContext context) {
     var textStyle = Theme.of(context).textTheme;
 
+    var url = widget._albumRepo.getAlbumList().first.thumbnail;
     Widget _newText(String text, TextTheme style) =>
         new Text(text, style: style.body1);
 
-    return Container(
-      child: Center(
-        child: Card(
-          child: Container(
-            padding: const EdgeInsets.all(8.0),
-            margin: const EdgeInsets.all(12.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                _newText(_ip, textStyle),
-                _newText(_date, textStyle),
-                new Text(
-                  _time,
-                  style: textStyle.title,
-                ),
-                _newText(_bluetoothStatus, textStyle),
+    return Stack(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.center,
+          child: Image(
+            image: NetworkImage(url),
+          ),
+        ),
+        Container(
+          child: Center(
+            child: Card(
+              child: Container(
+                padding: const EdgeInsets.all(8.0),
+                margin: const EdgeInsets.all(12.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    _newText(_ip, textStyle),
+                    _newText(_date, textStyle),
+                    new Text(
+                      _time,
+                      style: textStyle.title,
+                    ),
+                    _newText(_bluetoothStatus, textStyle),
+
+                    Text(url),
+
 //                new MyIcon(),
-              ],
+                  ],
+                ),
+              ),
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 

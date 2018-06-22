@@ -7,6 +7,8 @@ import 'package:flutter_hud/ui/face/clock/clock.dart';
 import 'package:flutter_hud/util/di/ObjectFactory.dart';
 import 'dart:ui' as ui;
 
+import 'package:flutter_hud/utils/ServiceLocator.dart';
+
 void main() => runApp(new MyApp());
 
 class MyApp extends StatefulWidget {
@@ -27,11 +29,14 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    var objectFactory = ObjectFactory.instance;
+    var serviceLocator = ServiceLocator.instance;
 
     var scaffold = new Scaffold(
       body: new ClockFace(
-          objectFactory.getWifiManager(), objectFactory.getBluetoothManager()),
+        serviceLocator.getWifiManager(),
+        serviceLocator.getBluetoothManager(),
+        serviceLocator.getAlbumRepo(),
+      ),
     );
 
     return new MaterialApp(
