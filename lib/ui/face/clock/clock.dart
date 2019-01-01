@@ -4,19 +4,16 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hud/bridge/network/IpAddress.dart';
 import 'package:flutter_hud/domain/album/ServerAlbumRepo.dart';
-import 'package:flutter_hud/domain/wifi/WifiManager.dart';
-import 'package:flutter_hud/ui/face/clock/MyIconAnimation.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ClockFace extends StatefulWidget {
-  final WifiManager _wifiManager;
   final AlbumRepo _albumRepo;
 
-  ClockFace(this._wifiManager, this._albumRepo);
+  ClockFace(this._albumRepo);
 
   factory ClockFace.forDesignTime() {
-    return new ClockFace(null, null);
+    return new ClockFace(null);
   }
 
   @override
@@ -28,15 +25,11 @@ class ClockFaceState extends State<ClockFace> {
   String _date;
   String _time;
 
-  String _bluetoothStatus;
-
   StreamSubscription _tick;
 
   StreamSubscription<ConnectivityResult> _subscription;
 
   Timer _periodicTimer;
-
-  Timer _btTimer;
 
   ClockFaceState();
 
@@ -71,8 +64,6 @@ class ClockFaceState extends State<ClockFace> {
                       _time,
                       style: textStyle.title,
                     ),
-                    _newText(_bluetoothStatus, textStyle),
-
                     Text(url),
 
 //                new MyIcon(),
@@ -93,7 +84,6 @@ class ClockFaceState extends State<ClockFace> {
     _ip = 'init';
     _time = 'now';
     _date = 'today';
-    _bluetoothStatus = 'BT - init';
     loadIp();
     startTick();
   }
@@ -102,7 +92,6 @@ class ClockFaceState extends State<ClockFace> {
   void reassemble() {
     super.reassemble();
 
-    _bluetoothStatus = 'BT - reassemble';
     loadIp();
 
     startTick();
@@ -114,8 +103,6 @@ class ClockFaceState extends State<ClockFace> {
     _tick = null;
     _periodicTimer?.cancel();
     _periodicTimer = null;
-    _btTimer?.cancel();
-    _btTimer = null;
     super.dispose();
   }
 
@@ -126,7 +113,6 @@ class ClockFaceState extends State<ClockFace> {
       IpAddress().getIp().then((String ip) {
         setState(() {
           _ip = '$result $ip';
-          _bluetoothStatus = 'BT: ';
         });
       });
     });
