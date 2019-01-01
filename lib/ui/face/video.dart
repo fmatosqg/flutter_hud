@@ -14,9 +14,7 @@ class _VideoAppState extends State<VideoApp> {
   void initState() {
     super.initState();
     _controller =
-        VideoPlayerController.network('https://i.imgur.com/vjGNwGP.mp4'
-//      'http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_20mb.mp4',
-            )
+        VideoPlayerController.network('https://i.imgur.com/vjGNwGP.mp4')
           ..addListener(() {
             final bool isPlaying = _controller.value.isPlaying;
             if (isPlaying != _isPlaying) {
@@ -33,6 +31,8 @@ class _VideoAppState extends State<VideoApp> {
 
   @override
   Widget build(BuildContext context) {
+    _controller.play();
+
     return MaterialApp(
       title: 'Video Demo',
       home: Scaffold(
