@@ -26,7 +26,7 @@ class ServerAlbumRepo extends AlbumRepo {
   @override
   Future<List<AlbumDto>> getAlbumListAsync() async {
     var response = await http.get('${_ServerDomain}${_AlbumDirectory}');
-    final json = JSON.decode(response.body);
+    final json = jsonDecode(response.body);
 
     return AlbumDto.listFromJson(json);
   }

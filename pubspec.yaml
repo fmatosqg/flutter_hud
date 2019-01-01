@@ -13,15 +13,7 @@ dependencies:
 
   intl: "^0.15.6"
   rxdart: "^0.16.6"
-
-  flutter_blue:
-
-dependency_overrides:
-  flutter_blue:
-    path: '/Users/fabio.dematos/code/android/flutter/flutter_blue'
-#    git:
-#      url: https://github.com/fmatosqg/flutter_blue.git
-#      ref: issue_47_advertising
+  http: ^0.12.0
 
 dev_dependencies:
   flutter_test:

@@ -34,7 +34,6 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
     var scaffold = new Scaffold(
       body: new ClockFace(
         serviceLocator.getWifiManager(),
-        serviceLocator.getBluetoothManager(),
         serviceLocator.getAlbumRepo(),
       ),
     );

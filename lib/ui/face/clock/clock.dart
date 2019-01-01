@@ -4,7 +4,6 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hud/bridge/network/IpAddress.dart';
 import 'package:flutter_hud/domain/album/ServerAlbumRepo.dart';
-import 'package:flutter_hud/domain/wifi/BluetoothManager.dart';
 import 'package:flutter_hud/domain/wifi/WifiManager.dart';
 import 'package:flutter_hud/ui/face/clock/MyIconAnimation.dart';
 import 'package:intl/intl.dart';
@@ -12,13 +11,12 @@ import 'package:rxdart/rxdart.dart';
 
 class ClockFace extends StatefulWidget {
   final WifiManager _wifiManager;
-  final BluetoothManager _bluetoothManager;
   final AlbumRepo _albumRepo;
 
-  ClockFace(this._wifiManager, this._bluetoothManager, this._albumRepo);
+  ClockFace(this._wifiManager, this._albumRepo);
 
   factory ClockFace.forDesignTime() {
-    return new ClockFace(null, null, null);
+    return new ClockFace(null, null);
   }
 
   @override
@@ -108,7 +106,6 @@ class ClockFaceState extends State<ClockFace> {
     loadIp();
 
     startTick();
-    doBluetoothThing();
   }
 
   @override
@@ -129,7 +126,7 @@ class ClockFaceState extends State<ClockFace> {
       IpAddress().getIp().then((String ip) {
         setState(() {
           _ip = '$result $ip';
-          _bluetoothStatus = 'BT: ' + widget._bluetoothManager.status();
+          _bluetoothStatus = 'BT: ';
         });
       });
     });
@@ -170,19 +167,6 @@ class ClockFaceState extends State<ClockFace> {
       print('hello');
       _time = timeFormatted;
       _date = dateFormatted;
-    });
-  }
-
-  void doBluetoothThing() {
-    _bluetoothStatus = 'BT about to start advertising';
-    widget._bluetoothManager.startAdvertising();
-
-    _btTimer?.cancel();
-    _btTimer = new Timer(const Duration(seconds: 5), () {
-      setState(() {
-        _bluetoothStatus =
-            'BT 5 seconds later ${widget._bluetoothManager.status()}';
-      });
     });
   }
 }
