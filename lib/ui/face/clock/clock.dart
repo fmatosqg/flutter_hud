@@ -4,6 +4,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hud/bridge/network/IpAddress.dart';
 import 'package:flutter_hud/domain/album/ServerAlbumRepo.dart';
+import 'package:flutter_hud/ui/face/video.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -49,6 +50,7 @@ class ClockFaceState extends State<ClockFace> {
             image: NetworkImage(url),
           ),
         ),
+        VideoApp(),
         Container(
           child: Center(
             child: Card(
