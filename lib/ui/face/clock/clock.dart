@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -15,38 +16,68 @@ class ClockFaceState extends State<ClockFace> {
 
   DateTime time;
 
-  Timer timer;
+  Timer _timer;
+
+  Timer _burninTimer; // add random paddings to avoid display burn in
+  EdgeInsetsGeometry paddings;
+
   @override
   void initState() {
     super.initState();
     _updateTime();
+    _updatePadding();
 
-    timer = Timer.periodic(
+    _timer = Timer.periodic(
       // const Duration(seconds: 1),
-      const Duration(milliseconds: 10),
+      const Duration(milliseconds: 1000),
       (Timer t) => _updateTime(),
+    );
+
+    _burninTimer = Timer.periodic(
+      const Duration(minutes: 1),
+      (Timer t) => _updatePadding(),
     );
   }
 
   @override
   void deactivate() {
     super.deactivate();
-    timer.cancel();
+    _timer.cancel();
+    _burninTimer.cancel();
   }
 
   void _updateTime() {
     setState(() {
-      time = DateTime.now();
+      time = DateTime.now().toLocal();
     });
+  }
+
+  void _updatePadding() {
+    var r = Random();
+
+    const maxPadding = 50;
+
+    paddings = EdgeInsets.fromLTRB(
+      r.nextDouble() * maxPadding,
+      r.nextDouble() * maxPadding,
+      r.nextDouble() * maxPadding,
+      r.nextDouble() * maxPadding,
+    );
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    _updatePadding();
   }
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Card(
-        color: Colors.amber.withAlpha(100),
+        color: Colors.brown,
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: paddings,
           // child: DigitalClock(time),
           child: AnalogClock(time),
         ),

@@ -92,7 +92,7 @@ class AnalogClockBackgroundPainter extends CustomPainter {
 
     TextSpan span = TextSpan(
         style: TextStyle(
-          color: Colors.black,
+          color: Colors.yellow,
           fontSize: size.height / 10,
         ),
         text: "$hour");
@@ -113,16 +113,18 @@ class AnalogClockHandsPainter extends CustomPainter {
   final DateTime time;
   AnalogClockHandsPainter(this.time);
 
+  static var _handColor = Colors.yellowAccent[100];
+
   Paint _paintHour = Paint()
-    ..color = Colors.blue
+    ..color = _handColor
     ..strokeWidth = 15;
 
   Paint _paintMinute = Paint()
-    ..color = Colors.blue
+    ..color = _handColor
     ..strokeWidth = 5;
 
   Paint _paintSeconds = Paint()
-    ..color = Colors.blue
+    ..color = _handColor
     ..isAntiAlias = true
     ..strokeWidth = 1;
 

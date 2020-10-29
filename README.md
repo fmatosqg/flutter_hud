@@ -22,5 +22,9 @@ Check with `flutter devices`
 
 To run on linux do `flutter -d linux`
 
+## Rpi with Android things
+set timezone with 
+`setprop persist.sys.timezone UTC+11`
+ 
 ## Disclaimer
 Tested on linux mint 20 Ulyana with Cinnamon with Flutter 1.17.4.
