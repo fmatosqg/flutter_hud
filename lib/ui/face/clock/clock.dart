@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'analog_clock.dart';
+
 class ClockFace extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => ClockFaceState();
@@ -17,9 +19,11 @@ class ClockFaceState extends State<ClockFace> {
   @override
   void initState() {
     super.initState();
+    _updateTime();
 
     timer = Timer.periodic(
-      const Duration(seconds: 1),
+      // const Duration(seconds: 1),
+      const Duration(milliseconds: 10),
       (Timer t) => _updateTime(),
     );
   }
@@ -43,7 +47,8 @@ class ClockFaceState extends State<ClockFace> {
         color: Colors.amber.withAlpha(100),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: DigitalClock(time),
+          // child: DigitalClock(time),
+          child: AnalogClock(time),
         ),
       ),
     );
@@ -51,11 +56,14 @@ class ClockFaceState extends State<ClockFace> {
 }
 
 class DigitalClock extends StatelessWidget {
-  final DateTime time;
+  static DateFormat timeFormat12H = DateFormat('hh:mm a');
+  static DateFormat timeFormat24H = DateFormat('HH:mm:ss');
 
+  static DateFormat timeFormat = timeFormat24H;
+  static DateFormat dateFormat = DateFormat('yyyy-MM-dd EEEE');
+
+  final DateTime time;
   DigitalClock(this.time);
-  DateFormat timeFormat = DateFormat('HH:mm a');
-  DateFormat dateFormat = DateFormat('yyyy-MM-dd EEEE');
 
   @override
   Widget build(BuildContext context) {
