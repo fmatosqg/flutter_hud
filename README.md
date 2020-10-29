@@ -20,5 +20,7 @@ flutter config --enable-linux-desktop
 
 Check with `flutter devices`
 
+To run on linux do `flutter -d linux`
+
 ## Disclaimer
 Tested on linux mint 20 Ulyana with Cinnamon with Flutter 1.17.4.
